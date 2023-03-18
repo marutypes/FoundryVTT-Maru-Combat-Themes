@@ -38,7 +38,7 @@ function createTheme(prefix, label, themeOptions = {}) {
 }
 
 function filelist(prefix, name, count = 1, suffix = ".wav") {
-  return new Array(count).map((_value, index) => {
+  return Array.from({length: count}).map((_value, index) => {
     return prefix + name + "-" + index + suffix;
   });
 }
