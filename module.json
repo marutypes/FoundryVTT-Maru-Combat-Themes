@@ -1,0 +1,33 @@
+{
+  "id": "maru-combat-themes",
+  "title": "Maru's Combat Themes",
+  "description": "I made this for my Fists of The Ruby Phoenix campaign.",
+  "version": "automated",
+  "library": "false",
+  "manifestPlusVersion": "1.2.0",
+  "compatibility": {
+    "minimum": 10.276,
+    "verified": 10
+  },
+  "authors": [
+    {
+      "name": "Mallory 'Maru' Allen",
+      "discord": "Maru#6806"
+    }
+  ],
+  "esmodules": [
+    "scripts/init-themes.mjs"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "languages/en.json"
+    }
+  ],
+  "url": "automated",
+  "manifest": "automated",
+  "download": "automated",
+  "license": "LICENSE",
+  "readme": "README.md"
+}
