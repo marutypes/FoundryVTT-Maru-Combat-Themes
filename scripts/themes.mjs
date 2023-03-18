@@ -2,13 +2,14 @@ const SOUND_PATH = "/modules/maru-combat-themes/sounds/";
 
 const themes = {
   "Guilty Gear Strive": createTheme(
-    SOUND_PATH + "/ggstrive/",
+    SOUND_PATH + "ggstrive/",
     "COMBAT.Sounds.GGStrive",
-    { suffix: ".ogg" }
+    { suffix: ".ogg", startCount: 3, yourTurnCount: 3 }
   ),
   "BlazBlue Cross Tag Battle": createTheme(
-    SOUND_PATH + "/blazblue/",
-    "COMBAT.Sounds.BlazBlue"
+    SOUND_PATH + "blazblue/",
+    "COMBAT.Sounds.BlazBlue",
+    { startCount: 2, yourTurnCount: 2 }
   ),
 };
 
@@ -30,17 +31,14 @@ function createTheme(prefix, label, themeOptions = {}) {
 
   return {
     label,
-    startEncounter: startEncounter.map((path) => prefix + path),
-    nextUp: nextUp.map((path) => prefix + path),
-    yourTurn: yourTurn.map((path) => prefix + path),
+    startEncounter,
+    nextUp,
+    yourTurn,
   };
 }
 
 function filelist(prefix, name, count = 1, suffix = ".wav") {
-  if (count == 1) {
-    return [prefix + name + suffix];
-  }
-  return new Array(length).map((_value, index) => {
+  return new Array(count).map((_value, index) => {
     return prefix + name + "-" + index + suffix;
   });
 }
