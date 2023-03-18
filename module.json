@@ -16,7 +16,7 @@
     }
   ],
   "esmodules": [
-    "scripts/init-themes.mjs"
+    "scripts/main.mjs"
   ],
   "languages": [
     {
