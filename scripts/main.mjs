@@ -17,6 +17,10 @@ Hooks.on("updateCombat", (combat, changed) => {
     return;
   }
 
+  if (game.user.isGM == false) {
+    return;
+  }
+
   if (changed.round) {
     // This code will run at the start of each round
     console.log(`Starting round ${combat.round}`);
@@ -47,6 +51,10 @@ Hooks.on("updateCombat", (combat, changed) => {
 });
 
 Hooks.on("deleteCombat", () => {
+  if (game.user.isGM == false) {
+    return;
+  }
+
   if (settings.currentTheme == "none") {
     return;
   }
