@@ -74,7 +74,7 @@ export function playRandomPlaylistSound(playlistName) {
       volume: settings.volume,
       autoplay: true,
       loop: false,
-    });
+    }, true);
   } else {
     console.error(`Playlist not found: ${playlistName}`);
   }
