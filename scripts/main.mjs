@@ -2,7 +2,6 @@ import themes from "./themes.generated.mjs";
 import { SOUND_TYPE } from "./constants.mjs";
 import { chooseTheme } from "./macros.mjs";
 import { playRandomCombatSound } from "./sounds.mjs";
-import { userIdForActorId } from "./util.mjs";
 import settings from "./settings.mjs";
 
 Hooks.on("init", () => {
