@@ -50,9 +50,9 @@ Hooks.on("deleteCombat", () => {
   if (settings.currentTheme == "none") {
     return;
   }
-  
+
   console.log(`Combat deleted`);
-  if (settings.endCombatSound) {
+  if (settings.playEndCombatSound) {
     playRandomCombatSound(SOUND_TYPE.END_COMBAT);
   }
 });

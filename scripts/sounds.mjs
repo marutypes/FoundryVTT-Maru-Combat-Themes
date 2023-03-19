@@ -60,6 +60,11 @@ export function playRandomPlaylistSound(playlistName) {
   if (playlist) {
     // Select a random sound from the playlist
     const playlistArray = Array.from(playlist.sounds);
+
+    if (playlistArray.length == 0) {
+        console.error(`Playlist ${playlistName} is empty :<`);
+        return;
+    }
     const randomIndex = Math.floor(Math.random() * playlistArray.length);
     const selectedSound = playlistArray[randomIndex];
 
