@@ -1,4 +1,13 @@
 {
-    "COMBAT.Sounds.GGStrive": "Guilty Gear -Strive-",
-    "COMBAT.Sounds.BlazBlue": "Blaz Blue Cross Tag Battle"
+    "MCT.Themes.Names.GGStrive": "Guilty Gear -Strive-",
+    "MCT.Themes.Names.BlazBlueCrossTagBattle": "Blaz Blue Cross Tag Battle",
+    
+    "MCT.Config.EndCombatSound.Title": "End Combat Sound",
+    "MCT.Config.EndCombatSound.Description": "Play custom end combat sounds.",
+    
+    "MCT.Config.RoundStart.Title": "Round Start Sound",
+    "MCT.Config.RoundStart.Description": "Play custom round start sounds.",
+
+    "MCT.Config.ForceNextUp.Title": "Force Turn Change Sound",
+    "MCT.Config.ForceNextUp.Description": "Foundry doesn't seem to actually play turn switch sounds. This forces it to do so."
 }
