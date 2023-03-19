@@ -1,5 +1,6 @@
 export const chooseTheme = {
   name: "Choose Combat Theme",
+  author: "Maru",
   type: "script",
   img: "icons/svg/sound.svg",
   command: () => {
