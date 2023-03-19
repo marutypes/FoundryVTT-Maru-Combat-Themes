@@ -24,8 +24,15 @@ Hooks.on("updateCombat", (combat, changed) => {
   if (changed.turn) {
     // This code will run when the turn changes
     const currentCombatant = combat.combatants[combat.turns];
+
     if (settings.forceNextUpSound) {
-      playRandomCombatSound(SOUND_TYPE.NEXT_UP)
+      if (currentCombatant.playerId === game.userId) {
+        // It's the current player's turn
+        playRandomCombatSound(SOUND_TYPE.YOUR_TURN);
+      } else {
+        // It's not the current player's turn
+        playRandomCombatSound(SOUND_TYPE.NEXT_UP);
+      }
     }
     console.log(`It is now ${currentCombatant.name}'s turn.`);
   }

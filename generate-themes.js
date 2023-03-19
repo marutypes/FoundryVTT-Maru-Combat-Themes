@@ -21,23 +21,27 @@ fs.readdir(path.join(".", directoryPath), (err, directories) => {
 
     const files = fs.readdirSync(dirPath);
 
+    function pathForFoundry(file) {
+        return `/modules/maru-combat-themes/sounds/${dir}/${file}`;
+    }
+
     themes[dir] = {
       label: `MCT.Themes.Names.${dir}`,
       startEncounter: files
         .filter((file) => file.startsWith("startEncounter"))
-        .map((file) => `/modules/maru-combat-themes/sounds/${dir}/${file}`),
+        .map(pathForFoundry),
       startRound: files
         .filter((file) => file.startsWith("startRound"))
-        .map((file) => `/modules/maru-combat-themes/sounds/${dir}/${file}`),
+        .map(pathForFoundry),
       nextUp: files
         .filter((file) => file.startsWith("nextUp"))
-        .map((file) => `/modules/maru-combat-themes/sounds/${dir}/${file}`),
+        .map(pathForFoundry),
       yourTurn: files
         .filter((file) => file.startsWith("yourTurn"))
-        .map((file) => `/modules/maru-combat-themes/sounds/${dir}/${file}`),
+        .map(pathForFoundry),
       endCombat: files
         .filter((file) => file.startsWith("endCombat"))
-        .map((file) => `${directoryPath}/${dir}/${file}`),
+        .map(pathForFoundry),
     };
   });
 
