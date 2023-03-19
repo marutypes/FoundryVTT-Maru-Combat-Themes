@@ -7,24 +7,39 @@ import settings from "./settings.mjs";
 Hooks.on("init", () => {
   foundry.utils.mergeObject(CONFIG.Combat.sounds, themes);
 
-  settings.register();
+  settings.init();
 
   Macro.create(chooseTheme);
 });
 
 Hooks.on("updateCombat", (combat, changed) => {
+  if (settings.currentTheme == "none") {
+    return;
+  }
+
   if (changed.round) {
     // This code will run at the start of each round
     console.log(`Starting round ${combat.round}`);
-    if (settings.roundStartSound && combat.round != 1) {
-      playRandomCombatSound(SOUND_TYPE.START_ROUND);
+    if (combat.round == 1) {
+      console.log("its the first round");
+      if (settings.playStartCombatSound) {
+        console.log("Playing start encounter sound");
+        playRandomCombatSound(SOUND_TYPE.START_ENCOUNTER);
+      }
+    } else {
+      console.log("its not the first round");
+      if (settings.playStartRoundSound) {
+        console.log("Playing start round sound");
+        playRandomCombatSound(SOUND_TYPE.START_ROUND);
+      }
     }
   }
 
   if (changed.turn) {
     // This code will run when the turn changes
     const currentCombatant = combat.combatant;
-    if (settings.forceNextUpSound) {
+    if (settings.playNextUpSound) {
+      console.log("Playing next up sound");
       playRandomCombatSound(SOUND_TYPE.NEXT_UP);
     }
     console.log(`It is now ${currentCombatant.name}'s turn.`);
@@ -32,6 +47,10 @@ Hooks.on("updateCombat", (combat, changed) => {
 });
 
 Hooks.on("deleteCombat", () => {
+  if (settings.currentTheme == "none") {
+    return;
+  }
+  
   console.log(`Combat deleted`);
   if (settings.endCombatSound) {
     playRandomCombatSound(SOUND_TYPE.END_COMBAT);

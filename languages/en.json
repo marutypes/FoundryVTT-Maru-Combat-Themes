@@ -1,16 +1,37 @@
 {
-    "MCT.Themes.Names.GGStrive": "Guilty Gear -Strive-",
-    "MCT.Themes.Names.BlazBlueCrossTagBattle": "Blaz Blue Cross Tag Battle",
-    
-    "MCT.Config.EndCombatSound.Title": "End Combat Sound",
-    "MCT.Config.EndCombatSound.Description": "Play custom end combat sounds.",
-    
-    "MCT.Config.RoundStart.Title": "Round Start Sound",
-    "MCT.Config.RoundStart.Description": "Play custom round start sounds.",
+  "MCT.Themes.Names.GGStrive": "Guilty Gear -Strive-",
+  "MCT.Themes.Names.BlazBlueCrossTagBattle": "Blaz Blue Cross Tag Battle",
 
-    "MCT.Config.ForceNextUp.Title": "Force Turn Change Sound",
-    "MCT.Config.ForceNextUp.Description": "Foundry doesn't seem to actually play turn switch sounds. This forces it to do so.",
+  "MCT.Config.PlayStartCombatSound.Title": "Play Start-Combat Sound",
+  "MCT.Config.PlayStartCombatSound.Description": "Play start-of-combat sounds.",
 
-    "MCT.Config.Volume.Title": "Volume",
-    "MCT.Config.Volume.Description": "Volume for custom combat theme audio"
+  "MCT.Config.CurrentTheme.Title": "Current Theme",
+  "MCT.Config.CurrentTheme.Description": "The set of sounds to use for combat",
+
+  "MCT.Config.PlayEndCombatSound.Title": "Play End-Combat Sound",
+  "MCT.Config.PlayEndCombatSound.Description": "Play end-of-combat sounds.",
+
+  "MCT.Config.PlayRoundStart.Title": "Play Round Start Sound",
+  "MCT.Config.PlayRoundStart.Description": "Play start-of-round sounds.",
+
+  "MCT.Config.PlayNextUp.Title": "Play Turn Change Sound",
+  "MCT.Config.PlayNextUp.Description": "Play turn-change sounds.",
+
+  "MCT.Config.Volume.Title": "Volume",
+  "MCT.Config.Volume.Description": "Volume for combat audio",
+
+  "MCT.Config.CustomThemeEnabled.Title": "Custom Theme",
+  "MCT.Config.CustomThemeEnabled.Description": "Enable custom combat theme",
+
+  "MCT.Config.StartCombatPlayList.Title": "Custom Start-Combat Playlist",
+  "MCT.Config.StartCombatPlayList.Description": "Start of combat sounds will be chosen at random from this playlist",
+
+  "MCT.Config.StartRoundPlayList.Title": "Custom Start-Round Playlist",
+  "MCT.Config.StartRoundPlayList.Description": "Start of round sounds will be chosen at random from this playlist",
+
+  "MCT.Config.NextUpPlayList.Title": "Custom Next-Up Playlist",
+  "MCT.Config.NextUpPlayList.Description": "Turn-start sounds will be chosen at random from this playlist",
+
+  "MCT.Config.EndCombatPlayList.Title": "Custom End-Combat Playlist",
+  "MCT.Config.EndCombatPlayList.Description": "End of combat sounds will be chosen at random from this playlist"
 }

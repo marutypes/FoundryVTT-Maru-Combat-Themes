@@ -9,22 +9,25 @@
 
 
 # Maru's Combat Themes
-I made this for my Fists of The Ruby Phoenix campaign. The module adds some custom themes to the combat theme dropdown, and also extends the combat theme system to work with end of combat and round start clips.
+ This module:
+- Adds new themes to the combat theme list
+- Creates an entirely separate synced combat theme system that supports setting playlists for different combat events as well as using the included themes
 
-The bundled audio is basically all silly fighting game references.
+I made this for my Fists of The Ruby Phoenix campaign, so the bundled audio is basically all silly fighting game references.
 
 ## Usage
-To change your theme, select it from the dropdown menu in Core Settings -> Combat Theme. You can also find settings for whether to use the extra sound effect hooks under the modules settings.
+To change your theme, select it from the dropdown menu in  Settings -> Maru's Combat Themes. You can also find settings for whether to use the extra sound effect hooks there as well.
 
 ## Themes
 
-The following themes are bundled in:
+The following themes are bundled in in addition to the base ones:
 * Guilty Gear Strive
 * BlazBlue Cross Tag Battle
 
-### Adding a theme
-
-WIP
+## Using Playlists
+- go to Settings -> Maru's Combat Themes
+- set the theme to "custom"
+- assign playlists for each audio queue
 
 ## Audio sourcing
 
