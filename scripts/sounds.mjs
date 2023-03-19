@@ -1,10 +1,12 @@
+import settings from "./settings.mjs";
+
 export function playCombatSound(theme, type, index = 0) {
   const themeObject = CONFIG.Combat.sounds[theme];
   if (themeObject && themeObject[type] && themeObject[type].hasOwnProperty(index)) {
     AudioHelper.play(
       {
         src: themeObject[type][index],
-        volume: 0.8,
+        volume: settings.volume,
         autoplay: true,
         loop: false,
       },

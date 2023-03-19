@@ -3,6 +3,7 @@ import { MODULE_NAME } from "./constants.mjs";
 const PLAY_END_COMBAT_SOUND = "play-end-combat-sound";
 const PLAY_ROUND_START_SOUND = "play-round-start-sound";
 const FORCE_NEXTUP_SOUND = "force-nextup-sound";
+const VOLUME = "volume";
 
 class Settings {
   register() {
@@ -32,6 +33,20 @@ class Settings {
       type: Boolean,
       default: true,
     });
+
+    game.settings.register(MODULE_NAME, VOLUME, {
+      name: "MCT.Config.Volume.Title",
+      hint: "MCT.Config.Volume.Description",
+      scope: "client",
+      config: true,
+      type: Number,
+      range: {
+        min: 0,
+        max: 1,
+        step: 0.01,
+      },
+      default: 0.5,
+    });
   }
 
   get endCombatSound() {
@@ -48,6 +63,13 @@ class Settings {
     this.setSetting(PLAY_ROUND_START_SOUND, value);
   }
 
+  get volume() {
+    return this.getSetting(VOLUME);
+  }
+  set volume(value) {
+    this.setSetting(VOLUME, value);
+  }
+
   get forceNextUpSound() {
     return this.getSetting(FORCE_NEXTUP_SOUND);
   }
@@ -55,7 +77,7 @@ class Settings {
     this.setSetting(FORCE_NEXTUP_SOUND, value);
   }
 
-  getSetting(setting, value) {
+  getSetting(setting) {
     return game.settings.get(MODULE_NAME, setting);
   }
 

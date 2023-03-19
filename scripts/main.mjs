@@ -2,6 +2,7 @@ import themes from "./themes.generated.mjs";
 import { SOUND_TYPE } from "./constants.mjs";
 import { chooseTheme } from "./macros.mjs";
 import { playRandomCombatSound } from "./sounds.mjs";
+import { userIdForActorId } from "./util.mjs";
 import settings from "./settings.mjs";
 
 Hooks.on("init", () => {
@@ -16,23 +17,16 @@ Hooks.on("updateCombat", (combat, changed) => {
   if (changed.round) {
     // This code will run at the start of each round
     console.log(`Starting round ${combat.round}`);
-    if (settings.roundStartSound) {
+    if (settings.roundStartSound && combat.round != 1) {
       playRandomCombatSound(SOUND_TYPE.START_ROUND);
     }
   }
 
   if (changed.turn) {
     // This code will run when the turn changes
-    const currentCombatant = combat.combatants[combat.turns];
-
+    const currentCombatant = combat.combatant;
     if (settings.forceNextUpSound) {
-      if (currentCombatant.playerId === game.userId) {
-        // It's the current player's turn
-        playRandomCombatSound(SOUND_TYPE.YOUR_TURN);
-      } else {
-        // It's not the current player's turn
-        playRandomCombatSound(SOUND_TYPE.NEXT_UP);
-      }
+      playRandomCombatSound(SOUND_TYPE.NEXT_UP);
     }
     console.log(`It is now ${currentCombatant.name}'s turn.`);
   }
