@@ -1,12 +1,23 @@
-import themes from "./themes.generated.mjs";
 import { SOUND_TYPE } from "./constants.mjs";
 import { playRandomCombatSound } from "./sounds.mjs";
 import settings from "./settings.mjs";
 
 Hooks.on("init", () => {
-  foundry.utils.mergeObject(CONFIG.Combat.sounds, themes);
-
   settings.init();
+
+  // force default foundry combat theme functionality off since we are taking over
+  setTimeout(() => {
+    game.settings.set("core", "combatTheme", "none", 100);
+  }, 10);
+});
+
+Hooks.once("ready", () => {
+  // make sure playlists are setup before finishing initializing our settings
+  settings.ready();
+});
+
+Hooks.on("renderSettingsConfig", (_app, html) => {
+  settings.renderSettingsConfig(html);
 });
 
 Hooks.on("updateCombat", (combat, changed) => {

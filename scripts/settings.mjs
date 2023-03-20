@@ -1,12 +1,12 @@
 import { getPlaylists } from "./sounds.mjs";
 import { MODULE_NAME } from "./constants.mjs";
+import {updateSelectOptions} from './dom-util.mjs';
 
 const PLAY_START_COMBAT_SOUND = "play-end-combat-sound";
 const PLAY_END_COMBAT_SOUND = "play-end-combat-sound";
 const PLAY_START_ROUND_SOUND = "play-round-start-sound";
 const PLAY_NEXT_UP_SOUND = "force-nextup-sound";
 const CURRENT_THEME = "current-theme";
-const ENABLE_CUSTOM_THEME = "enable-custom-theme";
 const VOLUME = "volume";
 
 const START_COMBAT_PLAYLIST = "start-combat-playlist";
@@ -81,128 +81,122 @@ class Settings {
       choices: this.themeOptions,
       default: "none",
     });
+  }
 
-    // force combat theme off since we are taking over
-    setTimeout(() => {
-      game.settings.set("core", "combatTheme", "none", 100);
-    }, 10);
+  ready() {
+    this.playlists = getPlaylists();
+    game.settings.register(MODULE_NAME, START_COMBAT_PLAYLIST, {
+      name: "MCT.Config.StartCombatPlayList.Title",
+      hint: "MCT.Config.StartCombatPlayList.Description",
+      scope: "world",
+      config: true,
+      type: String,
+      choices: this.playlists || [],
+      default: "none",
+      module: "my-module",
+      restricted: true,
+    });
+    game.settings.register(MODULE_NAME, START_ROUND_PLAYLIST, {
+      name: "MCT.Config.StartRoundPlayList.Title",
+      hint: "MCT.Config.StartRoundPlayList.Description",
+      scope: "world",
+      config: true,
+      type: String,
+      choices: this.playlists || [],
+      default: "none",
+      module: "my-module",
+      restricted: true,
+    });
+    game.settings.register(MODULE_NAME, NEXT_UP_PLAYLIST, {
+      name: "MCT.Config.NextUpPlayList.Title",
+      hint: "MCT.Config.NextUpPlayList.Description",
+      scope: "world",
+      config: true,
+      type: String,
+      choices: this.playlists || [],
+      default: "none",
+      module: "my-module",
+      restricted: true,
+    });
+    game.settings.register(MODULE_NAME, END_COMBAT_PLAYLIST, {
+      name: "MCT.Config.EndCombatPlayList.Title",
+      hint: "MCT.Config.EndCombatPlayList.Description",
+      scope: "world",
+      config: true,
+      type: String,
+      choices: this.playlists || [],
+      default: "none",
+      module: "my-module",
+      restricted: true,
+    });
+  }
 
-    // hack to make sure we can access playlists
-    Hooks.once("ready", () => {
+  renderSettingsConfig(html) {
+    const startCombatPlaylistInput = html.find(
+      `select[name="${MODULE_NAME}.${START_COMBAT_PLAYLIST}"]`
+    );
+    const startRoundPlaylistInput = html.find(
+      `select[name="${MODULE_NAME}.${START_ROUND_PLAYLIST}"]`
+    );
+    const nextUpPlaylistInput = html.find(
+      `select[name="${MODULE_NAME}.${NEXT_UP_PLAYLIST}"]`
+    );
+    const endCombatPlaylistInput = html.find(
+      `select[name="${MODULE_NAME}.${END_COMBAT_PLAYLIST}"]`
+    );
+
+    const playlistSelects = [
+      startCombatPlaylistInput,
+      startRoundPlaylistInput,
+      nextUpPlaylistInput,
+      endCombatPlaylistInput,
+    ];
+
+    const themeInput = html.find(
+      `select[name="${MODULE_NAME}.${CURRENT_THEME}"]`
+    );
+
+    const updatePlaylistSelects = () => {
+      playlistSelects.forEach((select) => {
+        updateSelectOptions(select, this.playlists);
+      });
+    };
+
+    const updateFormVisibility = (theme) => {
+      if (theme == "custom") {
+        playlistSelects.forEach((select) => {
+          select?.closest(".form-group")?.show();
+        });
+
+        updatePlaylistSelects();
+      } else {
+        playlistSelects.forEach((select) => {
+          select?.closest(".form-group")?.hide();
+        });
+      }
+    };
+
+    themeInput.on("change", (event) => {
       this.playlists = getPlaylists();
-      game.settings.register(MODULE_NAME, START_COMBAT_PLAYLIST, {
-        name: "MCT.Config.StartCombatPlayList.Title",
-        hint: "MCT.Config.StartCombatPlayList.Description",
-        scope: "world",
-        config: true,
-        type: String,
-        choices: this.playlists || [],
-        default: "none",
-        module: "my-module",
-        restricted: true,
-      });
-      game.settings.register(MODULE_NAME, START_ROUND_PLAYLIST, {
-        name: "MCT.Config.StartRoundPlayList.Title",
-        hint: "MCT.Config.StartRoundPlayList.Description",
-        scope: "world",
-        config: true,
-        type: String,
-        choices: this.playlists || [],
-        default: "none",
-        module: "my-module",
-        restricted: true,
-      });
-      game.settings.register(MODULE_NAME, NEXT_UP_PLAYLIST, {
-        name: "MCT.Config.NextUpPlayList.Title",
-        hint: "MCT.Config.NextUpPlayList.Description",
-        scope: "world",
-        config: true,
-        type: String,
-        choices: this.playlists || [],
-        default: "none",
-        module: "my-module",
-        restricted: true,
-      });
-      game.settings.register(MODULE_NAME, END_COMBAT_PLAYLIST, {
-        name: "MCT.Config.EndCombatPlayList.Title",
-        hint: "MCT.Config.EndCombatPlayList.Description",
-        scope: "world",
-        config: true,
-        type: String,
-        choices: this.playlists || [],
-        default: "none",
-        module: "my-module",
-        restricted: true,
-      });
+      const newTheme = this.themeOptions[event.currentTarget.value];
+      updateFormVisibility(newTheme);
     });
 
-    Hooks.on("renderSettingsConfig", (_app, html) => {
-      const startCombatPlaylistInput = html.find(
-        `select[name="${MODULE_NAME}.${START_COMBAT_PLAYLIST}"]`
-      );
-      const startRoundPlaylistInput = html.find(
-        `select[name="${MODULE_NAME}.${START_ROUND_PLAYLIST}"]`
-      );
-      const nextUpPlaylistInput = html.find(
-        `select[name="${MODULE_NAME}.${NEXT_UP_PLAYLIST}"]`
-      );
-      const endCombatPlaylistInput = html.find(
-        `select[name="${MODULE_NAME}.${END_COMBAT_PLAYLIST}"]`
-      );
-
-      const playlistSelects = [
-        startCombatPlaylistInput,
-        startRoundPlaylistInput,
-        nextUpPlaylistInput,
-        endCombatPlaylistInput,
-      ];
-
-      const themeInput = html.find(
-        `select[name="${MODULE_NAME}.${CURRENT_THEME}"]`
-      );
-
-      const updatePlaylistSelects = () => {
-        playlistSelects.forEach((select) => {
-          updateSelectOptions(select, this.playlists);
-        });
-      };
-
-      const updateFormVisibility = (theme) => {
-        if (theme == "custom") {
-          playlistSelects.forEach((select) => {
-            select?.closest(".form-group")?.show();
-          });
-
-          updatePlaylistSelects();
-        } else {
-          playlistSelects.forEach((select) => {
-            select?.closest(".form-group")?.hide();
-          });
-        }
-      };
-
-      themeInput.on("change", (event) => {
-        this.playlists = getPlaylists();
-        const newTheme = this.themeOptions[event.currentTarget.value];
-        updateFormVisibility(newTheme);
-      });
-
-      themeInput.closest("form").on("submit", () => {
-        this.playlists = getPlaylists();
-        updateFormVisibility(this.currentTheme);
-        updatePlaylistSelects();
-      });
-
-      playlistSelects.forEach((select) => {
-        select.on("focus", () => {
-          this.playlists = getPlaylists();
-          updateSelectOptions(select, this.playlists);
-        });
-      });
-
+    themeInput.closest("form").on("submit", () => {
+      this.playlists = getPlaylists();
       updateFormVisibility(this.currentTheme);
       updatePlaylistSelects();
     });
+
+    playlistSelects.forEach((select) => {
+      select.on("focus", () => {
+        this.playlists = getPlaylists();
+        updateSelectOptions(select, this.playlists);
+      });
+    });
+
+    updateFormVisibility(this.currentTheme);
+    updatePlaylistSelects();
   }
 
   get playStartCombatSound() {
@@ -254,26 +248,5 @@ class Settings {
   }
 }
 
-function updateSelectOptions($select, newOptions) {
-  // Get the current selected option
-  const currentText = $select.find("option:selected").text();
-
-  // Create a new set of options from the new options array
-  const $newOptions = newOptions.map((option, index) => {
-    return $("<option>", { value: index, text: option });
-  });
-
-  // Empty the current select options
-  $select.empty();
-
-  // Append the new set of options
-  $select.append($newOptions);
-
-  // Select the previously selected option, if it exists in the new options
-  const optionWithCurrentText = $select.find("option").filter(function () {
-    return $(this).html() == currentText;
-  });
-  $select.val(optionWithCurrentText.val());
-}
 
 export default new Settings();
