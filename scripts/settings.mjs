@@ -150,29 +150,58 @@ class Settings {
         `select[name="${MODULE_NAME}.${END_COMBAT_PLAYLIST}"]`
       );
 
+      const playlistSelects = [
+        startCombatPlaylistInput,
+        startRoundPlaylistInput,
+        nextUpPlaylistInput,
+        endCombatPlaylistInput,
+      ];
+
       const themeInput = html.find(
         `select[name="${MODULE_NAME}.${CURRENT_THEME}"]`
       );
 
+      const updatePlaylistSelects = () => {
+        playlistSelects.forEach((select) => {
+          updateSelectOptions(select, this.playlists);
+        });
+      };
+
       const updateFormVisibility = (theme) => {
         if (theme == "custom") {
-          startCombatPlaylistInput?.closest(".form-group")?.show();
-          startRoundPlaylistInput?.closest(".form-group")?.show();
-          nextUpPlaylistInput?.closest(".form-group")?.show();
-          endCombatPlaylistInput?.closest(".form-group")?.show();
+          playlistSelects.forEach((select) => {
+            select?.closest(".form-group")?.show();
+          });
+
+          updatePlaylistSelects();
         } else {
-          startCombatPlaylistInput?.closest(".form-group")?.hide();
-          startRoundPlaylistInput?.closest(".form-group")?.hide();
-          nextUpPlaylistInput?.closest(".form-group")?.hide();
-          endCombatPlaylistInput?.closest(".form-group")?.hide();
+          playlistSelects.forEach((select) => {
+            select?.closest(".form-group")?.hide();
+          });
         }
       };
 
       themeInput.on("change", (event) => {
+        this.playlists = getPlaylists();
         const newTheme = this.themeOptions[event.currentTarget.value];
         updateFormVisibility(newTheme);
       });
+
+      themeInput.closest("form").on("submit", () => {
+        this.playlists = getPlaylists();
+        updateFormVisibility(this.currentTheme);
+        updatePlaylistSelects();
+      });
+
+      playlistSelects.forEach((select) => {
+        select.on("focus", () => {
+          this.playlists = getPlaylists();
+          updateSelectOptions(select, this.playlists);
+        });
+      });
+
       updateFormVisibility(this.currentTheme);
+      updatePlaylistSelects();
     });
   }
 
@@ -225,11 +254,26 @@ class Settings {
   }
 }
 
-function setSelectOptions(selectElement, options) {
-  selectElement.empty();
-  options.forEach((option, index) => {
-    selectElement.append(`<option value="${index}">${option}</option>`);
+function updateSelectOptions($select, newOptions) {
+  // Get the current selected option
+  const currentText = $select.find("option:selected").text();
+
+  // Create a new set of options from the new options array
+  const $newOptions = newOptions.map((option, index) => {
+    return $("<option>", { value: index, text: option });
   });
+
+  // Empty the current select options
+  $select.empty();
+
+  // Append the new set of options
+  $select.append($newOptions);
+
+  // Select the previously selected option, if it exists in the new options
+  const optionWithCurrentText = $select.find("option").filter(function () {
+    return $(this).html() == currentText;
+  });
+  $select.val(optionWithCurrentText.val());
 }
 
 export default new Settings();

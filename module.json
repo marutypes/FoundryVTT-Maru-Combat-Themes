@@ -1,7 +1,7 @@
 {
   "id": "maru-combat-themes",
-  "title": "Maru's Combat Themes",
-  "description": "Custom combat themes based around fighting games!",
+  "title": "Maru's (Better) Combat Themes",
+  "description": "Use custom combat themes from playlists! Sync your combat theme settings to all players!",
   "version": "automated",
   "library": "false",
   "manifestPlusVersion": "1.2.0",
