@@ -1,4 +1,5 @@
 ![](https://img.shields.io/badge/Foundry-v10-informational)
+![](https://img.shields.io/badge/Foundry-v11-informational)
 ![Latest Release Download Count](https://img.shields.io/github/downloads/marutypes/FoundryVTT-Maru-Combat-Themes/latest/module.zip)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q32OGH1)
