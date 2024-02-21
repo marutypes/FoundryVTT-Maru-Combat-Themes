@@ -1,6 +1,6 @@
 import { getPlaylists } from "./sounds.mjs";
 import { MODULE_NAME } from "./constants.mjs";
-import {updateSelectOptions} from './dom-util.mjs';
+import { updateSelectOptions } from "./dom-util.mjs";
 
 const PLAY_START_COMBAT_SOUND = "play-end-combat-sound";
 const PLAY_END_COMBAT_SOUND = "play-end-combat-sound";
@@ -85,13 +85,19 @@ class Settings {
 
   ready() {
     this.playlists = getPlaylists();
+
+    let playlistChoices = this.playlists.reduce((acc, playlist) => {
+      acc[playlist.id] = playlist.name;
+      return acc;
+    }, {});
+
     game.settings.register(MODULE_NAME, START_COMBAT_PLAYLIST, {
       name: "MCT.Config.StartCombatPlayList.Title",
       hint: "MCT.Config.StartCombatPlayList.Description",
       scope: "world",
       config: true,
       type: String,
-      choices: this.playlists || [],
+      choices: playlistChoices,
       default: "none",
       module: "my-module",
       restricted: true,
@@ -102,7 +108,7 @@ class Settings {
       scope: "world",
       config: true,
       type: String,
-      choices: this.playlists || [],
+      choices: playlistChoices,
       default: "none",
       module: "my-module",
       restricted: true,
@@ -113,7 +119,7 @@ class Settings {
       scope: "world",
       config: true,
       type: String,
-      choices: this.playlists || [],
+      choices: playlistChoices,
       default: "none",
       module: "my-module",
       restricted: true,
@@ -124,7 +130,7 @@ class Settings {
       scope: "world",
       config: true,
       type: String,
-      choices: this.playlists || [],
+      choices: playlistChoices,
       default: "none",
       module: "my-module",
       restricted: true,
@@ -216,19 +222,19 @@ class Settings {
   }
 
   get startCombatPlaylist() {
-    return this.playlists[this.getSetting(START_COMBAT_PLAYLIST)];
+    return this.getSetting(START_COMBAT_PLAYLIST);
   }
 
   get startRoundPlaylist() {
-    return this.playlists[this.getSetting(START_ROUND_PLAYLIST)];
+    return this.getSetting(START_ROUND_PLAYLIST);
   }
 
   get nextUpPlaylist() {
-    return this.playlists[this.getSetting(NEXT_UP_PLAYLIST)];
+    return this.getSetting(NEXT_UP_PLAYLIST);
   }
 
   get endCombatPlaylist() {
-    return this.playlists[this.getSetting(END_COMBAT_PLAYLIST)];
+    return this.getSetting(END_COMBAT_PLAYLIST);
   }
 
   get currentTheme() {
@@ -247,6 +253,5 @@ class Settings {
     game.settings.set(MODULE_NAME, setting, value);
   }
 }
-
 
 export default new Settings();

@@ -24,24 +24,24 @@ export function playRandomCombatSound(type) {
   const theme = settings.currentTheme;
 
   if (theme == "custom") {
-    let playlist = null;
+    let playlistId = null;
     switch (type) {
       case SOUND_TYPE.START_ENCOUNTER:
-        playlist = settings.startCombatPlaylist;
+        playlistId = settings.startCombatPlaylist;
         break;
       case SOUND_TYPE.START_ROUND:
-        playlist = settings.startRoundPlaylist;
+        playlistId = settings.startRoundPlaylist;
         break;
       case SOUND_TYPE.NEXT_UP:
-        playlist = settings.nextUpPlaylist;
+        playlistId = settings.nextUpPlaylist;
         break;
       case SOUND_TYPE.END_COMBAT:
-        playlist = settings.endCombatPlaylist;
+        playlistId = settings.endCombatPlaylist;
         break;
     }
 
-    if (playlist != null) {
-      playRandomPlaylistSound(playlist);
+    if (playlistId != null) {
+      playRandomPlaylistSound(playlistId);
     }
   } else {
     const sounds = CONFIG.Combat.sounds[theme][type];
@@ -53,30 +53,33 @@ export function playRandomCombatSound(type) {
   }
 }
 
-export function playRandomPlaylistSound(playlistName) {
-  // Find the playlist object with the specified name
-  const playlist = game.playlists.find((p) => p.name === playlistName);
+export function playRandomPlaylistSound(playlistId) {
+  // Find the playlist object with the specified ID
+  const playlist = game.playlists.contents.find((p) => p.id === playlistId);
 
   if (playlist) {
     // Select a random sound from the playlist
     const playlistArray = Array.from(playlist.sounds);
 
     if (playlistArray.length == 0) {
-        console.error(`Playlist ${playlistName} is empty :<`);
-        return;
+      console.error(`Playlist with ID ${playlistId} is empty :<`);
+      return;
     }
     const randomIndex = Math.floor(Math.random() * playlistArray.length);
     const selectedSound = playlistArray[randomIndex];
 
     // Play the selected sound using AudioHelper
-    AudioHelper.play({
-      src: selectedSound.path,
-      volume: settings.volume,
-      autoplay: true,
-      loop: false,
-    }, true);
+    AudioHelper.play(
+      {
+        src: selectedSound.path,
+        volume: settings.volume,
+        autoplay: true,
+        loop: false,
+      },
+      true
+    );
   } else {
-    console.error(`Playlist not found: ${playlistName}`);
+    console.error(`Playlist not found with ID: ${playlistId}`);
   }
 }
 
@@ -84,5 +87,6 @@ export function getPlaylists() {
   if (game.playlists == null) {
     return [];
   }
-  return game.playlists.map((p) => p.name);
+  // Return both name and ID for each playlist
+  return game.playlists.map((p) => ({ name: p.name, id: p.id }));
 }

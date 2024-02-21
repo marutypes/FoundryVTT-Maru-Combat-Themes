@@ -69,5 +69,5 @@ Hooks.once("ready", () => {
 });
 
 function log(msg) {
-  console.log("Maru's (Better) Combat Themes |", msg);
+  console.log("Maru's (Better) Combat Themes v1.1.0|", msg);
 }
